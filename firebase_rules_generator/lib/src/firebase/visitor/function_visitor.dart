@@ -1,4 +1,5 @@
 import 'package:analyzer/dart/ast/ast.dart';
+import 'package:firebase_rules_generator/src/common/json_key_rewriter.dart';
 import 'package:firebase_rules_generator/src/common/rules_context.dart';
 import 'package:firebase_rules_generator/src/common/util.dart';
 import 'package:source_gen/source_gen.dart';
@@ -28,10 +29,12 @@ Stream<String> _visitFunctionBody(
         final variable = statement.variables.variables.single;
         final name = variable.name;
         final initializer = variable.initializer;
-        yield 'let $name = $initializer;'.indent(context.indent);
+        yield 'let $name = ${_expressionToString(initializer)};'
+            .indent(context.indent);
       } else if (statement is ReturnStatement) {
         final expression = statement.expression;
-        yield 'return $expression;'.indent(context.indent);
+        yield 'return ${_expressionToString(expression)};'
+            .indent(context.indent);
       } else {
         throw InvalidGenerationSourceError(
           'Unsupported function statement type: $statement',
@@ -40,8 +43,16 @@ Stream<String> _visitFunctionBody(
     }
   } else if (body is ExpressionFunctionBody) {
     final expression = body.expression;
-    yield 'return $expression;'.indent(context.indent);
+    yield 'return ${_expressionToString(expression)};'.indent(context.indent);
   } else {
     throw InvalidGenerationSourceError('Unsupported function body type: $body');
   }
+}
+
+String _expressionToString(Expression? expression) {
+  print('Expression: ${expression.toString()} - ${expression?.toSource()}');
+  if (expression == null) {
+    return expression.toString();
+  }
+  return toSourceWithJsonKeyReplacement(expression);
 }

@@ -25,7 +25,7 @@ class DatabaseRulesGenerator extends GeneratorForAnnotation<DatabaseRules>
     buffer.writeln('{');
 
     final resolver = buildStep.resolver;
-    final ast = await resolver.astNodeFor(element);
+    final ast = await resolver.astNodeFor(element, resolve: true);
     final matches = ast!.childEntities.whereType<ListLiteral>().single.elements;
     final context = RulesContext.root(resolver);
 

@@ -10,7 +10,16 @@ import 'package:source_gen/source_gen.dart';
 
 /// Visit Match nodes
 Stream<String> visitMatch(RulesContext context, AstNode node) async* {
-  final arguments = (node as MethodInvocation).argumentList.arguments;
+  NodeList<Expression> arguments;
+  if (node is InstanceCreationExpression) {
+    arguments = node.argumentList.arguments;
+  } else if (node is MethodInvocation) {
+    arguments = node.argumentList.arguments;
+  } else {
+    throw InvalidGenerationSourceError(
+      'Invalid match node type: ${node.runtimeType}',
+    );
+  }
   final pathArgument = arguments.first;
   final String path;
   if (pathArgument is SimpleStringLiteral) {
@@ -59,7 +68,8 @@ Stream<String> visitMatch(RulesContext context, AstNode node) async* {
 Stream<String> _visitFunctions(RulesContext context) async* {
   for (final element in context.functions) {
     final functionElement = await context.get(element.name);
-    final function = await context.resolver.astNodeFor(functionElement);
+    final function =
+        await context.resolver.astNodeFor(functionElement, resolve: true);
     yield* visitFunction(context.dive(), function as FunctionDeclaration);
   }
 }

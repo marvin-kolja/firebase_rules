@@ -1,4 +1,5 @@
 import 'package:analyzer/dart/ast/ast.dart';
+import 'package:firebase_rules_generator/src/common/json_key_rewriter.dart';
 import 'package:firebase_rules_generator/src/common/rules_context.dart';
 import 'package:firebase_rules_generator/src/common/util.dart';
 
@@ -10,7 +11,8 @@ Stream<String> visitRule(RulesContext context, AstNode node) async* {
   final operations = operationIdentifiers.elements
       .cast<PrefixedIdentifier>()
       .map((e) => e.identifier.name);
-  final condition = arguments[1].toSource();
+  final conditionExpr = arguments[1];
+  final condition = toSourceWithJsonKeyReplacement(conditionExpr);
 
   yield 'allow ${operations.join(', ')}: if $condition;'.indent(context.indent);
 }

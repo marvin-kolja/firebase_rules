@@ -33,7 +33,7 @@ class FirebaseRulesGenerator extends GeneratorForAnnotation<FirebaseRules>
     // Generate functions
     final resolver = buildStep.resolver;
     final context = RulesContext.root(resolver, functions: revived.functions);
-    final ast = await resolver.astNodeFor(element);
+    final ast = await resolver.astNodeFor(element, resolve: true);
     final matches = ast!.childEntities.whereType<ListLiteral>().single.elements;
 
     for (final match in matches) {
