@@ -1,3 +1,11 @@
+## 0.3.0
+
+- Fix sanitization: Regex collisions in replacing "non-braces string interpolation" 
+- Fix sanitization: Leaves `!` and `?` in front of `.rules()`. For example `resource.data.userId!.rules()` did output `resource.data.userId!` instead of `resource.data.userId`.
+
+- BREAKING:
+  `@JsonKey` annotated fields are now rewritten using the name specified in the annotation. For example, if you have a field `@JsonKey(name: 'user_id') String userId;`, something like `resource.data.userId.rules()` will now output `resource.data.user_id`.
+
 ## 0.2.3
 
 - Supports analyzer 7
