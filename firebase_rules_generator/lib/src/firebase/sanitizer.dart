@@ -10,8 +10,10 @@ String sanitizeRules(RevivedFirebaseRules annotation, String input) {
     translateRawStrings,
     (input) => input
         // Convert non-braced string interpolation
-        .replaceAllMapped(RegExp(r'\$([^{}]+?)\b'), (m) => '\$(${m[1]})')
+        // TODO: Maybe needs work to avoid collisions
+        .replaceAllMapped(RegExp(r'\$([a-zA-Z_]\w*)'), (m) => '\$(${m[1]})')
         // Convert braced string interpolation
+        // TODO: Maybe needs work to avoid collisions
         .replaceAllMapped(RegExp(r'\${(.+?)}'), (m) => '\$(${m[1]})'),
     (input) => input
             // Convert firestore methods
