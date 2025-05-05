@@ -5,8 +5,8 @@ import 'package:firebase_rules_generator/src/common/sanitizer.dart';
 /// Sanitize rules files
 String sanitizeRules(String input) {
   return transform(input, [
-    removeRulesPrefixesAndSuffixes,
     stripNullSafety,
+    removeRulesPrefixesAndSuffixes,
     translateRawStrings,
     (input) => translateEnums(input, {
           'RulesProvider': RulesProvider.values,

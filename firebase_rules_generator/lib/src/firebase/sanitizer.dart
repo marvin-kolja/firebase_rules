@@ -5,8 +5,8 @@ import 'package:firebase_rules_generator/src/firebase/revived_firebase_rules.dar
 /// Sanitize rules files
 String sanitizeRules(RevivedFirebaseRules annotation, String input) {
   return transformIgnoringRaws(input, [
-    removeRulesPrefixesAndSuffixes,
     stripNullSafety,
+    removeRulesPrefixesAndSuffixes,
     translateRawStrings,
     (input) => input
         // Convert non-braced string interpolation
