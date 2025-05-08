@@ -50,7 +50,6 @@ Stream<String> _visitFunctionBody(
 }
 
 String _expressionToString(Expression? expression) {
-  print('Expression: ${expression.toString()} - ${expression?.toSource()}');
   if (expression == null) {
     return expression.toString();
   }

@@ -39,8 +39,6 @@ class JsonKeyRewriter extends RecursiveAstVisitor<void> {
 
       final jsonKeyName = extractJsonKeyName(getter);
 
-      print('Found JSON key name: $jsonKeyName');
-
       if (jsonKeyName != null && jsonKeyName != fieldName) {
         _replacements[node] =
             node.toSource().replaceFirst(fieldName, jsonKeyName);
@@ -51,8 +49,6 @@ class JsonKeyRewriter extends RecursiveAstVisitor<void> {
   /// After visiting, apply the replacements
   String rewrite(String source) {
     var result = source;
-
-    print("Replacements: $_replacements");
 
     // Apply each replacement
     for (final replacement in _replacements.entries) {
