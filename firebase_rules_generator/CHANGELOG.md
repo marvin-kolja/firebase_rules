@@ -1,3 +1,7 @@
+## 0.3.1
+
+- Fix sanitization: Regex for converting `contains` and `range` were overmatching. For example `rules.raw('foo == bar') && (!request.resource.data.rules().keys().contains('id') || rules.raw('foo == bar'))` would result in `'id' in foo == bar && (!request.resource.data.keys() || foo == bar)`, but should have been `foo == bar && (!('id' in request.resource.data.keys()) || foo == bar)`.
+
 ## 0.3.0
 
 - Fix sanitization: Regex collisions in replacing "non-braces string interpolation" 
