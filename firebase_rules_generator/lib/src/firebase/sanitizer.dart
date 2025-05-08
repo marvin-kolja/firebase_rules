@@ -56,7 +56,7 @@ String sanitizeRules(RevivedFirebaseRules annotation, String input) {
     (input) => input
             // Convert `contains` to `x in y`
             .replaceAllMapped(
-          RegExp(r'(!)?(\S+?|\[.+?|\{.+?)\.contains\((.+?)\)'),
+          RegExp(r'(!)?([a-zA-Z_]+?(?:[a-zA-Z_\d]|\.|\([^\n^(\r]*?\))*?)\.contains\((.+?)\)'),
           (m) {
             if (m[1] != null) {
               return '!(${m[3]} in ${m[2]})';
@@ -67,7 +67,7 @@ String sanitizeRules(RevivedFirebaseRules annotation, String input) {
         )
             // Convert `range` to `x[i:j]
             .replaceAllMapped(
-          RegExp(r'(\S+?)\.range\((.+?), (.+?)\)'),
+          RegExp(r'([a-zA-Z_]+?[a-zA-Z_\d]+?(?:\([^\n^(\r]*?\))?)\.range\((.+?), (.+?)\)'),
           (m) => '${m[1]}[${m[2]}:${m[3]}]',
         ),
     (input) => input
