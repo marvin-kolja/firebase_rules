@@ -1,3 +1,7 @@
+## 0.3.4
+
+- Remove `as <type>` casts from generated rules. This allows for more type flexibility when writing Dart code.
+
 ## 0.3.3
 
 - Fix `JsonKeyRewriter` only checking `mixins`. Now it checks type directly and all `supertypes`.
