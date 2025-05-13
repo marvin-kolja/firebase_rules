@@ -33,15 +33,21 @@ class JsonKeyRewriter extends RecursiveAstVisitor<void> {
   void _replaceIfJsonKey(DartType? type, String fieldName, AstNode node) {
     if (type is! InterfaceType) return;
 
-    for (final mixin in type.mixins) {
-      final getter = mixin.getGetter(fieldName);
-      if (getter == null) continue;
+    final getters = [type.getGetter(fieldName)].nonNulls.toList();
 
+    for (final superType in type.allSupertypes) {
+      final getter = superType.getGetter(fieldName);
+      if (getter == null) continue;
+      getters.add(getter);
+    }
+
+    for (final getter in getters) {
       final jsonKeyName = extractJsonKeyName(getter);
 
       if (jsonKeyName != null && jsonKeyName != fieldName) {
         _replacements[node] =
             node.toSource().replaceFirst(fieldName, jsonKeyName);
+        break;
       }
     }
   }
