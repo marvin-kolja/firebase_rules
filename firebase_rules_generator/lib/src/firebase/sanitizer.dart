@@ -94,6 +94,39 @@ String sanitizeRules(RevivedFirebaseRules annotation, String input) {
           'resource.firestoreResourceName',
           "resource['__name__']",
         ),
+
+    /// Replaces all `is <type>` with the corresponding firestore type.
+    ///
+    /// It does not include `constraint` data type.
+    ///
+    /// ref: https://firebase.google.com/docs/firestore/security/rules-fields#enforcing_field_types
+    (input) => input.replaceAllMapped(
+            RegExp(
+              r'\sis\s+(bool|Blob|double|int|List|GeoPoint|num|Map|String|Timestamp|Set|RulesPath|MapDiff|RulesDuration)',
+            ), (m) {
+          const map = {
+            'bool': 'bool',
+            'Blob': 'bytes',
+            'double': 'float',
+            'int': 'int',
+            'List': 'list',
+            'GeoPoint': 'latlng',
+            'num': 'number',
+            'RulesPath': 'path',
+            'Map': 'map',
+            'String': 'string',
+            'Timestamp': 'timestamp',
+            'RulesDuration': 'duration',
+            'Set': 'set',
+            'MapDiff': 'map_diff',
+          };
+
+          if (!map.containsKey(m[1])) {
+            return ' is ${m[1]}';
+          }
+
+          return ' is ${map[m[1]]}';
+        }),
   ]);
 }
 
