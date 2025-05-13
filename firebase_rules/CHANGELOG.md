@@ -1,3 +1,7 @@
+## 0.2.2
+
+- Support additional `timestamp` comparison operators.
+
 ## 0.2.1
 
 - Fixes analysis issues
