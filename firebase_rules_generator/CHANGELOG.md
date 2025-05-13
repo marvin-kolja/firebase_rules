@@ -1,3 +1,7 @@
+## 0.3.2
+
+- Support `is` operator by using Dart, `cloud_firestore`, and `firestore_rules` model data types.
+
 ## 0.3.1
 
 - Fix sanitization: Regex for converting `contains` and `range` were overmatching. For example `rules.raw('foo == bar') && (!request.resource.data.rules().keys().contains('id') || rules.raw('foo == bar'))` would result in `'id' in foo == bar && (!request.resource.data.keys() || foo == bar)`, but should have been `foo == bar && (!('id' in request.resource.data.keys()) || foo == bar)`.
