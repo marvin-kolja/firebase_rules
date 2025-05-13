@@ -10,6 +10,18 @@ abstract class RulesTimestamp {
   /// Subtract a duration from this timestamp
   RulesTimestamp operator -(RulesDuration duration);
 
+  /// Smaller than operator
+  bool operator <(RulesTimestamp other);
+
+  /// Smaller than or equal operator
+  bool operator <=(RulesTimestamp other);
+
+  /// Greater than operator
+  bool operator >(RulesTimestamp other);
+
+  /// Greater than or equal operator
+  bool operator >=(RulesTimestamp other);
+
   /// Timestamp value containing year, month, and day only.
   RulesTimestamp date();
 
