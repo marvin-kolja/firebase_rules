@@ -1,3 +1,7 @@
+## 0.3.3
+
+- Fix `JsonKeyRewriter` only checking `mixins`. Now it checks type directly and all `supertypes`.
+
 ## 0.3.2
 
 - Support `is` operator by using Dart, `cloud_firestore`, and `firestore_rules` model data types.
